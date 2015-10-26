@@ -1,54 +1,127 @@
-﻿using AutoReservation.Common.Extensions;
+﻿using System.Text;
+using AutoReservation.Common.Extensions;
 using AutoReservation.Common.DataTransferObjects.Core;
 
 namespace AutoReservation.Common.DataTransferObjects
 {
-    public class AutoDto //: DtoBase<AutoDto>
+    public class AutoDto : DtoBase<AutoDto>
     {
+        
+        public override string Validate()
+        {
+            StringBuilder error = new StringBuilder();
+            if (string.IsNullOrEmpty(marke))
+            {
+                error.AppendLine("- Marke ist nicht gesetzt.");
+            }
+            if (tagestarif <= 0)
+            {
+                error.AppendLine("- Tagestarif muss grösser als 0 sein.");
+            }
+            if (autoKlasse == AutoKlasse.Luxusklasse && basistarif <= 0)
+            {
+                error.AppendLine("- Basistarif eines Luxusautos muss grösser als 0 sein.");
+            }
 
+            if (error.Length == 0) { return null; }
 
-        //public override string Validate()
-        //{
-        //    StringBuilder error = new StringBuilder();
-        //    if (string.IsNullOrEmpty(marke))
-        //    {
-        //        error.AppendLine("- Marke ist nicht gesetzt.");
-        //    }
-        //    if (tagestarif <= 0)
-        //    {
-        //        error.AppendLine("- Tagestarif muss grösser als 0 sein.");
-        //    }
-        //    if (AutoKlasse == AutoKlasse.Luxusklasse && basistarif <= 0)
-        //    {
-        //        error.AppendLine("- Basistarif eines Luxusautos muss grösser als 0 sein.");
-        //    }
+            return error.ToString();
+        }
 
-        //    if (error.Length == 0) { return null; }
+        public override AutoDto Clone()
+        {
+            return new AutoDto
+            {
+                Id = Id,
+                Marke = Marke,
+                Tagestarif = Tagestarif,
+                AutoKlasse = AutoKlasse,
+                Basistarif = Basistarif
+            };
+        }
 
-        //    return error.ToString();
-        //}
+        public override string ToString()
+        {
+            return string.Format(
+                "{0}; {1}; {2}; {3}; {4}",
+                Id,
+                Marke,
+                Tagestarif,
+                Basistarif,
+                AutoKlasse);
+        }
 
-        //public override AutoDto Clone()
-        //{
-        //    return new AutoDto
-        //    {
-        //        Id = Id,
-        //        Marke = Marke,
-        //        Tagestarif = Tagestarif,
-        //        AutoKlasse = AutoKlasse,
-        //        Basistarif = Basistarif
-        //    };
-        //}
+        private int id;
+        public int Id
+        {
+            get { return id; }
+            set
+            {
+                if (id == value)
+                {
+                    return;
+                }
+                id = value;
+                this.OnPropertyChanged(p => p.Id);
+            }
+        }
 
-        //public override string ToString()
-        //{
-        //    return string.Format(
-        //        "{0}; {1}; {2}; {3}; {4}",
-        //        Id,
-        //        Marke,
-        //        Tagestarif,
-        //        Basistarif,
-        //        AutoKlasse);
-        //}
+        private string marke;
+        public string Marke
+        {
+            get { return marke; }
+            set
+            {
+                if (marke == value)
+                {
+                    return;
+                }
+                marke = value;
+                this.OnPropertyChanged(p => p.Marke);
+            }
+        }
+        private int tagestarif;
+        public int Tagestarif
+        {
+            get { return tagestarif; }
+            set
+            {
+                if (tagestarif == value)
+                {
+                    return;
+                }
+                tagestarif = value;
+                this.OnPropertyChanged(p => p.Tagestarif);
+            }
+        }
+        private int basistarif;
+        public int Basistarif
+        {
+            get { return basistarif; }
+            set
+            {
+                if (basistarif == value)
+                {
+                    return;
+                }
+                basistarif = value;
+                this.OnPropertyChanged(p => p.Basistarif);
+            }
+        }
+        private AutoKlasse autoKlasse;
+        public AutoKlasse AutoKlasse
+        {
+            get { return autoKlasse; }
+            set
+            {
+                if (autoKlasse == value)
+                {
+                    return;
+                }
+                autoKlasse = value;
+                this.OnPropertyChanged(p => p.AutoKlasse);
+            }
+        }
+
     }
 }

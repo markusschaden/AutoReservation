@@ -79,6 +79,9 @@
     <Compile Include="AutoReservationService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="AutoReservationServiceReservation.cs" />
+    <Compile Include="AutoReservationServiceKunde.cs" />
+    <Compile Include="AutoReservationServiceAuto.cs" />
     <Compile Include="DtoConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
