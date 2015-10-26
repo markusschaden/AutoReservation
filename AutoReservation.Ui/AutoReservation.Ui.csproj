@@ -129,6 +129,8 @@
     </Compile>
     <Compile Include="AutoReservationModule.cs" />
     <Compile Include="Factory\IServiceFactory.cs" />
+    <Compile Include="Factory\RemoteDataAccessServiceFactory.cs" />
+    <Compile Include="Factory\LocalDataAccessServiceFactory.cs" />
     <Compile Include="Factory\NullServiceFactory.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -206,6 +208,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

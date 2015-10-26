@@ -1,13 +1,14 @@
 ﻿using AutoReservation.Common.Interfaces;
+using AutoReservation.Service.Wcf;
 using Moq;
 
 namespace AutoReservation.Ui.Factory
 {
-    public class NullServiceFactory : IServiceFactory
+    public class LocalDataAccessServiceFactory : IServiceFactory
     {
         public IAutoReservationService GetService()
         {
-            return new Mock<IAutoReservationService>().Object;
+            return new AutoReservationService();
         }
     }
 }
