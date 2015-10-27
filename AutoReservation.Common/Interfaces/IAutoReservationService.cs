@@ -9,7 +9,8 @@ namespace AutoReservation.Common.Interfaces
     public interface IAutoReservationService
     {
         List<AutoDto> Autos { get; }
-        [OperationContract]AutoDto FindAuto(int id);
+        [OperationContract]
+        AutoDto FindAuto(int id);
         [OperationContract]
         AutoDto InsertAuto(AutoDto auto);
         [OperationContract]

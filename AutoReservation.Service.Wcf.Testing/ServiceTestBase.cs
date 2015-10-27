@@ -22,37 +22,56 @@ namespace AutoReservation.Service.Wcf.Testing
         [TestMethod]
         public void Test_GetAutos()
         {
-            Assert.Inconclusive("Test not implemented.");
+            Assert.AreEqual(3,Target.Autos.Count);
         }
 
         [TestMethod]
         public void Test_GetKunden()
         {
-            Assert.Inconclusive("Test not implemented.");
+            Assert.AreEqual(4, Target.Kunden.Count);
         }
 
         [TestMethod]
         public void Test_GetReservationen()
         {
-            Assert.Inconclusive("Test not implemented.");
+            Assert.AreEqual(3, Target.Reservationen.Count);
         }
 
         [TestMethod]
         public void Test_GetAutoById()
         {
-            Assert.Inconclusive("Test not implemented.");
+            AutoDto auto = Target.FindAuto(2);
+            Assert.AreEqual("VW Golf", auto.Marke);
+            Assert.AreEqual(AutoKlasse.Mittelklasse, auto.AutoKlasse);
+            Assert.AreEqual(120, auto.Tagestarif);
         }
 
         [TestMethod]
         public void Test_GetKundeById()
         {
-            Assert.Inconclusive("Test not implemented.");
+            KundeDto kunde = Target.FindKunde(3);
+            Assert.AreEqual("Pfahl", kunde.Nachname);
+            Assert.AreEqual("Martha", kunde.Vorname);
+            Assert.AreEqual("03.07.1950", kunde.Geburtsdatum.ToShortDateString());
         }
 
         [TestMethod]
         public void Test_GetReservationByNr()
         {
-            Assert.Inconclusive("Test not implemented.");
+            ReservationDto reservation = Target.FindReservation(1);
+
+            Assert.AreEqual("10.01.2020", reservation.Von.ToShortDateString());
+            Assert.AreEqual("20.01.2020", reservation.Bis.ToShortDateString());
+
+            AutoDto auto = Target.FindAuto(reservation.Auto.Id);
+            Assert.AreEqual(auto.Marke, reservation.Auto.Marke);
+            Assert.AreEqual(auto.AutoKlasse, reservation.Auto.AutoKlasse);
+            Assert.AreEqual(auto.Tagestarif, reservation.Auto.Tagestarif);
+
+            KundeDto kunde = Target.FindKunde(reservation.Kunde.Id);
+            Assert.AreEqual(kunde.Nachname, reservation.Kunde.Nachname);
+            Assert.AreEqual(kunde.Vorname, reservation.Kunde.Vorname);
+            Assert.AreEqual(kunde.Geburtsdatum.ToShortDateString(), reservation.Kunde.Geburtsdatum.ToShortDateString());
         }
 
         [TestMethod]

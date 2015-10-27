@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoReservation.Common.DataTransferObjects;
+using AutoReservation.Dal;
 
 namespace AutoReservation.Service.Wcf
 {
@@ -14,32 +15,41 @@ namespace AutoReservation.Service.Wcf
             get
             {
                 WriteActualMethod();
-                throw new NotImplementedException();
+
+                return DtoConverter.ConvertToDtos(AutoReservationBusinessComponent.Reservationen());
             }
         }
 
         public ReservationDto FindReservation(int id)
         {
             WriteActualMethod();
-            throw new NotImplementedException();
+
+            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.FindReservation(id));
         }
 
-        public ReservationDto InsertReservation(ReservationDto reservation)
+        public ReservationDto InsertReservation(ReservationDto ReservationDto)
         {
             WriteActualMethod();
-            throw new NotImplementedException();
+            Reservation Reservation = DtoConverter.ConvertToEntity(ReservationDto);
+
+            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.InsertReservation(Reservation));
         }
 
-        public ReservationDto UpdateReservation(ReservationDto modified, ReservationDto original)
+        public ReservationDto UpdateReservation(ReservationDto modifiedDto, ReservationDto originalDto)
         {
             WriteActualMethod();
-            throw new NotImplementedException();
+            Reservation modified = DtoConverter.ConvertToEntity(modifiedDto);
+            Reservation original = DtoConverter.ConvertToEntity(originalDto);
+
+            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.UpdateReservation(modified, original));
         }
 
-        public ReservationDto DeleteReservation(ReservationDto reservation)
+        public ReservationDto DeleteReservation(ReservationDto ReservationDto)
         {
             WriteActualMethod();
-            throw new NotImplementedException();
+            Reservation Reservation = DtoConverter.ConvertToEntity(ReservationDto);
+
+            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.DeleteReservation(Reservation));
         }
     }
 }

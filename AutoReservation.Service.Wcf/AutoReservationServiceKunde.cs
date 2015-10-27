@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoReservation.Common.DataTransferObjects;
+using AutoReservation.Dal;
 
 namespace AutoReservation.Service.Wcf
 {
@@ -14,32 +15,41 @@ namespace AutoReservation.Service.Wcf
             get
             {
                 WriteActualMethod();
-                throw new NotImplementedException();
+
+                return DtoConverter.ConvertToDtos(AutoReservationBusinessComponent.Kunden());
             }
         }
 
         public KundeDto FindKunde(int id)
         {
             WriteActualMethod();
-            throw new NotImplementedException();
+
+            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.FindKunde(id));
         }
 
-        public KundeDto InsertKunde(KundeDto kunde)
+        public KundeDto InsertKunde(KundeDto KundeDto)
         {
             WriteActualMethod();
-            throw new NotImplementedException();
+            Kunde Kunde = DtoConverter.ConvertToEntity(KundeDto);
+
+            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.InsertKunde(Kunde));
         }
 
-        public KundeDto UpdateKunde(KundeDto modified, KundeDto original)
+        public KundeDto UpdateKunde(KundeDto modifiedDto, KundeDto originalDto)
         {
             WriteActualMethod();
-            throw new NotImplementedException();
+            Kunde modified = DtoConverter.ConvertToEntity(modifiedDto);
+            Kunde original = DtoConverter.ConvertToEntity(originalDto);
+
+            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.UpdateKunde(modified, original));
         }
 
-        public KundeDto DeleteKunde(KundeDto kunde)
+        public KundeDto DeleteKunde(KundeDto KundeDto)
         {
             WriteActualMethod();
-            throw new NotImplementedException();
+            Kunde Kunde = DtoConverter.ConvertToEntity(KundeDto);
+
+            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.DeleteKunde(Kunde));
         }
     }
 }
