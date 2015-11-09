@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity.Core;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using AutoReservation.Dal;
 
@@ -37,13 +39,22 @@ namespace AutoReservation.BusinessLayer
 
         public Auto UpdateAuto(Auto modified, Auto original)
         {
+            
             using (var context = new AutoReservationEntities())
             {
-                context.Autos.Attach(original);
-                context.Entry(original).CurrentValues.SetValues(modified);
-                context.SaveChanges();
-                return modified;
-            }
+                try
+                {
+                    context.Autos.Attach(original);
+                    context.Entry(original).CurrentValues.SetValues(modified);
+                    context.SaveChanges();
+                    return modified;
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    HandleDbConcurrencyException<Auto>(context, original);
+                    return null;
+                }
+            }       
         }
 
         public Auto DeleteAuto(Auto auto)
@@ -90,10 +101,18 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                context.Kunden.Attach(original);
-                context.Entry(original).CurrentValues.SetValues(modified);
-                context.SaveChanges();
-                return modified;
+                try
+                { 
+                    context.Kunden.Attach(original);
+                    context.Entry(original).CurrentValues.SetValues(modified);
+                    context.SaveChanges();
+                    return modified;
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    HandleDbConcurrencyException<Kunde>(context, original);
+                    return null;
+                }
             }
         }
 
@@ -141,10 +160,17 @@ namespace AutoReservation.BusinessLayer
         {
             using (var context = new AutoReservationEntities())
             {
-                context.Reservationen.Attach(original);
-                context.Entry(original).CurrentValues.SetValues(modified);
-                context.SaveChanges();
-                return modified;
+                try { 
+                    context.Reservationen.Attach(original);
+                    context.Entry(original).CurrentValues.SetValues(modified);
+                    context.SaveChanges();
+                    return modified;
+                }
+                catch (DbUpdateConcurrencyException e)
+                {
+                    HandleDbConcurrencyException<Reservation>(context, original);
+                    return null;
+                }
             }
         }
 

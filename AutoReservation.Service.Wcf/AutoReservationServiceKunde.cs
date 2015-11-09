@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using AutoReservation.BusinessLayer;
 using AutoReservation.Common.DataTransferObjects;
 using AutoReservation.Dal;
 
@@ -16,7 +18,7 @@ namespace AutoReservation.Service.Wcf
             {
                 WriteActualMethod();
 
-                return DtoConverter.ConvertToDtos(AutoReservationBusinessComponent.Kunden());
+                return DtoConverter.ConvertToDtos(autoReservationBusinessComponent.Kunden());
             }
         }
 
@@ -24,7 +26,7 @@ namespace AutoReservation.Service.Wcf
         {
             WriteActualMethod();
 
-            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.FindKunde(id));
+            return DtoConverter.ConvertToDto(autoReservationBusinessComponent.FindKunde(id));
         }
 
         public KundeDto InsertKunde(KundeDto KundeDto)
@@ -32,7 +34,7 @@ namespace AutoReservation.Service.Wcf
             WriteActualMethod();
             Kunde Kunde = DtoConverter.ConvertToEntity(KundeDto);
 
-            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.InsertKunde(Kunde));
+            return DtoConverter.ConvertToDto(autoReservationBusinessComponent.InsertKunde(Kunde));
         }
 
         public KundeDto UpdateKunde(KundeDto modifiedDto, KundeDto originalDto)
@@ -40,8 +42,14 @@ namespace AutoReservation.Service.Wcf
             WriteActualMethod();
             Kunde modified = DtoConverter.ConvertToEntity(modifiedDto);
             Kunde original = DtoConverter.ConvertToEntity(originalDto);
+            try { 
+                return DtoConverter.ConvertToDto(autoReservationBusinessComponent.UpdateKunde(modified, original));
+            }
+            catch (LocalOptimisticConcurrencyException<Kunde> e)
+            {
+                throw new FaultException<KundeDto>(modifiedDto);
+            }
 
-            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.UpdateKunde(modified, original));
         }
 
         public KundeDto DeleteKunde(KundeDto KundeDto)
@@ -49,7 +57,7 @@ namespace AutoReservation.Service.Wcf
             WriteActualMethod();
             Kunde Kunde = DtoConverter.ConvertToEntity(KundeDto);
 
-            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.DeleteKunde(Kunde));
+            return DtoConverter.ConvertToDto(autoReservationBusinessComponent.DeleteKunde(Kunde));
         }
     }
 }

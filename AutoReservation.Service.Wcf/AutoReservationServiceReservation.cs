@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using AutoReservation.BusinessLayer;
 using AutoReservation.Common.DataTransferObjects;
 using AutoReservation.Dal;
 
@@ -16,7 +18,7 @@ namespace AutoReservation.Service.Wcf
             {
                 WriteActualMethod();
 
-                return DtoConverter.ConvertToDtos(AutoReservationBusinessComponent.Reservationen());
+                return DtoConverter.ConvertToDtos(autoReservationBusinessComponent.Reservationen());
             }
         }
 
@@ -24,7 +26,7 @@ namespace AutoReservation.Service.Wcf
         {
             WriteActualMethod();
 
-            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.FindReservation(id));
+            return DtoConverter.ConvertToDto(autoReservationBusinessComponent.FindReservation(id));
         }
 
         public ReservationDto InsertReservation(ReservationDto ReservationDto)
@@ -32,7 +34,7 @@ namespace AutoReservation.Service.Wcf
             WriteActualMethod();
             Reservation Reservation = DtoConverter.ConvertToEntity(ReservationDto);
 
-            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.InsertReservation(Reservation));
+            return DtoConverter.ConvertToDto(autoReservationBusinessComponent.InsertReservation(Reservation));
         }
 
         public ReservationDto UpdateReservation(ReservationDto modifiedDto, ReservationDto originalDto)
@@ -41,7 +43,13 @@ namespace AutoReservation.Service.Wcf
             Reservation modified = DtoConverter.ConvertToEntity(modifiedDto);
             Reservation original = DtoConverter.ConvertToEntity(originalDto);
 
-            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.UpdateReservation(modified, original));
+            try { 
+                return DtoConverter.ConvertToDto(autoReservationBusinessComponent.UpdateReservation(modified, original));
+            }
+            catch (LocalOptimisticConcurrencyException<Reservation> e)
+            {
+                throw new FaultException<ReservationDto>(modifiedDto);
+            }
         }
 
         public ReservationDto DeleteReservation(ReservationDto ReservationDto)
@@ -49,7 +57,7 @@ namespace AutoReservation.Service.Wcf
             WriteActualMethod();
             Reservation Reservation = DtoConverter.ConvertToEntity(ReservationDto);
 
-            return DtoConverter.ConvertToDto(AutoReservationBusinessComponent.DeleteReservation(Reservation));
+            return DtoConverter.ConvertToDto(autoReservationBusinessComponent.DeleteReservation(Reservation));
         }
     }
 }

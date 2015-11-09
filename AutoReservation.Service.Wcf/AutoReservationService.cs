@@ -9,10 +9,10 @@ namespace AutoReservation.Service.Wcf
     [DataContract]
     public partial class AutoReservationService : IAutoReservationService
     {
-        private AutoReservationBusinessComponent AutoReservationBusinessComponent;
+        private readonly AutoReservationBusinessComponent autoReservationBusinessComponent;
         public AutoReservationService()
         {
-            AutoReservationBusinessComponent = new AutoReservationBusinessComponent();
+            autoReservationBusinessComponent = new AutoReservationBusinessComponent();
         }
 
         private static void WriteActualMethod()

@@ -168,21 +168,48 @@ namespace AutoReservation.Service.Wcf.Testing
         [ExpectedException(typeof(FaultException<AutoDto>))]
         public void Test_UpdateAutoWithOptimisticConcurrency()
         {
-            Assert.Inconclusive("Test not implemented.");
+            AutoDto orgAuto1 = Target.FindAuto(1);
+            AutoDto auto1 = Target.FindAuto(1);
+            AutoDto orgAuto2 = Target.FindAuto(1);
+            AutoDto auto2 = Target.FindAuto(1);
+
+            auto1.Marke = "BMW";
+            Target.UpdateAuto(auto1, orgAuto1);
+
+            auto2.Marke = "Audi";
+            Target.UpdateAuto(auto2, orgAuto2);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FaultException<KundeDto>))]
         public void Test_UpdateKundeWithOptimisticConcurrency()
         {
-            Assert.Inconclusive("Test not implemented.");
+            KundeDto orgKunde1 = Target.FindKunde(1);
+            KundeDto kunde1 = Target.FindKunde(1);
+            KundeDto orgKunde2 = Target.FindKunde(1);
+            KundeDto kunde2 = Target.FindKunde(1);
+
+            kunde1.Vorname = "Hans";
+            Target.UpdateKunde(kunde1, orgKunde1);
+
+            kunde2.Vorname = "Peter";
+            Target.UpdateKunde(kunde2, orgKunde2);
         }
 
         [TestMethod]
         [ExpectedException(typeof(FaultException<ReservationDto>))]
         public void Test_UpdateReservationWithOptimisticConcurrency()
         {
-            Assert.Inconclusive("Test not implemented.");
+            ReservationDto orgReservation1 = Target.FindReservation(1);
+            ReservationDto reservation1 = Target.FindReservation(1);
+            ReservationDto orgReservation2 = Target.FindReservation(1);
+            ReservationDto reservation2 = Target.FindReservation(1);
+
+            reservation1.Auto = Target.FindAuto(2);
+            Target.UpdateReservation(reservation1, orgReservation1);
+
+            reservation2.Auto = Target.FindAuto(3);
+            Target.UpdateReservation(reservation2, orgReservation2);
         }
 
         [TestMethod]
